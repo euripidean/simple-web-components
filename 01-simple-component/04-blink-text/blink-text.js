@@ -1,38 +1,48 @@
-
 class BlinkText extends HTMLElement {
   constructor() {
     super();
-    
-    this._shadowRoot = this.attachShadow({ mode: 'open' });
+
+    this._shadowRoot = this.attachShadow({ mode: "open" });
 
     // Make a new p element
-    this._blinkEl = document.createElement('span')
-    this._shadowRoot.appendChild(this._blinkEl)
+    this._blinkEl = document.createElement("span");
+    this._shadowRoot.appendChild(this._blinkEl);
 
     // Get the text in the original tag and put it in the P element
-    this._blinkEl.innerHTML = this.innerHTML
+    this._blinkEl.innerHTML = this.innerHTML;
+
+    this.paragraph = document.createElement("p");
 
     // Make a variable to track the state of the blink element
+    this._isBlinking = false;
 
-    // Add any styles needed to the blink element
+    this._timer = setInterval(() => {
+      if (this._isBlinking) {
+        this._blinkEl.style.opacity = 0;
+        this._isBlinking = false;
+      } else {
+        this._blinkEl.style.opacity = 1;
+        this._isBlinking = true;
+      }
+    }, 1000);
 
+    this._blinkEl.style.transition = "opacity 0.5s ease-in-out";
   }
 
   // Lifecycle method called when this component is appended to the DOM
   connectedCallback() {
-    // Start the timer here 
-
+    // Start the timer here
+    this._timer;
   }
 
   // Lifecycle method called when the component is removed from the DOM
   disconnectedCallback() {
     // remove your timer here
-
+    clearInterval(this.timer);
   }
 }
 
-customElements.define('blink-text', BlinkText);
-
+customElements.define("blink-text", BlinkText);
 
 /*
 

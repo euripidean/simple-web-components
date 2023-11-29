@@ -1,33 +1,36 @@
-
 // Make a new Component
 class RansomNote extends HTMLElement {
   constructor() {
-    super(); 
-    this._shadowRoot = this.attachShadow({ mode: 'open' });
-    
+    super();
+    this._shadowRoot = this.attachShadow({ mode: "open" });
+
     // Get the text of the host element this.innerHTML
+    const text = this.innerHTML;
+    const words = text.split(" ");
+    const fonts = ["Helvetica", "Times", "Courier"];
 
-    // Split the string into an array of words text.split(' ')
+    words.forEach((word, i) => {
+      // for each character in each word
+      const characters = word.split("");
+      characters.forEach((character, i) => {
+        // Make a new span element
+        this.span = document.createElement("span");
+        this.span.innerHTML = character;
+        this.span.style.fontSize = `${Math.random() * 20 + 18}px`;
+        this.span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+        this.span.style.fontFamily = fonts[Math.floor(Math.random() * 3)];
 
-    // Loop over each word in the array
-
-      // Make a span 
-
-      // Set the innerHTML of the span to the current word 
-
-      // Set a random style for example: 
-      // span.style.fontSize = `${Math.random() * 20 + 12}px`
-      // Should set a fontSize between 12px and 32px
-
-      // Repeat the process above for as many styles as you can. For example: 
-      // span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`
-      // WOuld generate a a rotation of -20deg to +20deg
-
-      // Append the word to the shadowroot
+        this._shadowRoot.appendChild(this.span);
+      });
+      // add a space after each word
+      this.span = document.createElement("span");
+      this.span.innerHTML = " ";
+      this._shadowRoot.appendChild(this.span);
+    });
   }
 }
 
-customElements.define('ransom-note', RansomNote);
+customElements.define("ransom-note", RansomNote);
 
 /* 
 
@@ -89,4 +92,3 @@ Try setting a wider range of properties.
 - font-weight
 
 */
-
